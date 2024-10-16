@@ -19,6 +19,17 @@ variable "agent_id" {
   description = "The ID of a Coder agent."
 }
 
+variable "agent_name" {
+  type        = string
+  description = "The name of the main deployment. (Used to build the subpath for coder_app.)"
+  default     = ""
+  validation {
+    # If subdomain is false, then agent_name must be set.
+    condition     = var.subdomain || var.agent_name != ""
+    error_message = "The agent_name must be set."
+  }
+}
+
 variable "log_path" {
   type        = string
   description = "The path to log jupyterlab to."
