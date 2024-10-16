@@ -9,6 +9,10 @@ terraform {
   }
 }
 
+data "coder_workspace" "me" {}
+
+data "coder_workspace_owner" "me" {}
+
 # Add required variables for your modules and remove any unneeded variables
 variable "agent_id" {
   type        = string
