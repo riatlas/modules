@@ -13,8 +13,10 @@ if ! command -v jupyterlab > /dev/null 2>&1; then
     echo "Please install pipx in your Dockerfile/VM image before running this script"
     exit 1
   fi
+
   # install jupyterlab
-  pipx install -q jupyterlab
+  pipx install jupyterlab --include-deps
+  pipx ensurepath
   echo "🥳 jupyterlab has been installed\n\n"
 else
   echo "🥳 jupyterlab is already installed\n\n"
