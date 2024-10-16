@@ -42,13 +42,24 @@ variable "order" {
   default     = null
 }
 
+variable "subdomain" {
+  type        = bool
+  description = <<-EOT
+    Determines whether the app will be accessed via it's own subdomain or whether it will be accessed via a path on Coder.
+    If wildcards have not been setup by the administrator then apps with "subdomain" set to true will not be accessible.
+  EOT
+  default     = true
+}
+
 resource "coder_script" "jupyterlab" {
   agent_id     = var.agent_id
   display_name = "jupyterlab"
   icon         = "/icon/jupyter.svg"
   script = templatefile("${path.module}/run.sh", {
     LOG_PATH : var.log_path,
-    PORT : var.port
+    PORT : var.port,
+    SUBDOMAIN : var.subdomain,
+    SERVER_BASE_PATH : var.subdomain ? "" : format("/@%s/%s.%s/apps/jupyterlab", data.coder_workspace_owner.me.name, data.coder_workspace.me.name, var.agent_name),
   })
   run_on_start = true
 }
@@ -59,7 +70,7 @@ resource "coder_app" "jupyterlab" {
   display_name = "JupyterLab"
   url          = "http://localhost:${var.port}"
   icon         = "/icon/jupyter.svg"
-  subdomain    = true
+  subdomain    = var.subdomain
   share        = var.share
   order        = var.order
 }
