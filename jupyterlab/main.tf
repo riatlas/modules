@@ -83,7 +83,7 @@ resource "coder_app" "jupyterlab" {
   agent_id     = var.agent_id
   slug         = "jupyterlab"
   display_name = "JupyterLab"
-  url          = "http://localhost:${var.port}"
+  url          = "http://localhost:${var.port}/lab"
   icon         = "/icon/jupyter.svg"
   subdomain    = var.subdomain
   share        = var.share
