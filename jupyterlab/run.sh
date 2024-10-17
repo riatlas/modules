@@ -1,7 +1,6 @@
 #!/usr/bin/env sh
 
 BOLD='\033[0;1m'
-NOTEBOOK_DIR="$HOME/notebooks"
 
 printf "$${BOLD}Installing jupyterlab!\n"
 
