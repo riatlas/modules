@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 BOLD='\033[0;1m'
-NOTEBOOK_DIR="${NOTEBOOK_DIR:-$HOME/notebooks}"
+NOTEBOOK_DIR="$HOME/notebooks"
 
 printf "$${BOLD}Installing jupyterlab!\n"
 
@@ -27,5 +27,5 @@ echo "👷 Starting jupyterlab in background..."
 echo "check logs at ${LOG_PATH}"
 echo "Server base: ${SERVER_BASE_PATH}"
 echo "Notebook dir: ${NOTEBOOK_DIR}"
-mkdir -p ${NOTEBOOK_DIR} || true
+mkdir -p "${NOTEBOOK_DIR}" || true
 $HOME/.local/bin/jupyter-lab --ServerApp.ip='0.0.0.0' --ServerApp.base_url=${SERVER_BASE_PATH} --NotebookApp.notebook_dir=${NOTEBOOK_DIR} --ServerApp.port=${PORT} --no-browser --ServerApp.token='' --ServerApp.password='' > ${LOG_PATH} 2>&1 &
