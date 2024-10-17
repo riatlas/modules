@@ -78,7 +78,7 @@ resource "coder_script" "jupyterlab" {
     LOG_PATH : var.log_path,
     PORT : var.port,
     SUBDOMAIN : var.subdomain,
-    SERVER_BASE_PATH : ${local.base_url},
+    SERVER_BASE_PATH : local.base_url,
   })
   run_on_start = true
 }
