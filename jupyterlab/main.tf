@@ -66,6 +66,10 @@ variable "subdomain" {
   default     = true
 }
 
+locals {
+  base_url = var.subdomain ? "/lab" : format("/@%s/%s.%s/apps/jupyterlab", data.coder_workspace_owner.me.name, data.coder_workspace.me.name, var.agent_name)  
+}
+
 resource "coder_script" "jupyterlab" {
   agent_id     = var.agent_id
   display_name = "jupyterlab"
@@ -74,7 +78,7 @@ resource "coder_script" "jupyterlab" {
     LOG_PATH : var.log_path,
     PORT : var.port,
     SUBDOMAIN : var.subdomain,
-    SERVER_BASE_PATH : var.subdomain ? "" : format("/@%s/%s.%s/apps/jupyterlab", data.coder_workspace_owner.me.name, data.coder_workspace.me.name, var.agent_name),
+    SERVER_BASE_PATH : ${local.base_url},
   })
   run_on_start = true
 }
@@ -83,7 +87,7 @@ resource "coder_app" "jupyterlab" {
   agent_id     = var.agent_id
   slug         = "jupyterlab"
   display_name = "JupyterLab"
-  url          = "http://localhost:${var.port}"
+  url          = "http://localhost:${var.port}${local.base_url}"
   icon         = "/icon/jupyter.svg"
   subdomain    = var.subdomain
   share        = var.share
